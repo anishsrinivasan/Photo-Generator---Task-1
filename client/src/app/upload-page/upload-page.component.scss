@@ -1,0 +1,50 @@
+.main-container{
+    padding:2% 10%;
+}
+
+.hide{
+    display: none;
+}
+
+.print-info-container {
+    padding:2%;
+}
+
+.object-cover{
+    object-fit: cover
+}
+
+.margin-left{
+    margin-left: 25px;
+}
+
+
+mat-icon {
+  cursor: pointer;
+}
+
+mat-chip{
+    cursor: pointer;
+}
+
+/*Filters */
+
+.filter-contrast{
+    -webkit-filter: saturate(8);
+    filter: saturate(8);
+}
+
+.filter-sepia{
+    -webkit-filter: sepia(1);
+    filter: sepia(1);
+}
+
+.filter-grey{
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+}
+
+.filter-invert{
+    -webkit-filter: invert(.8);
+    filter: invert(.8);
+}

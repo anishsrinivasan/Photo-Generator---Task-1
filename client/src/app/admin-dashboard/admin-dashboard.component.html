@@ -1,0 +1,28 @@
+
+<div class="display-container">
+  <div class="table-responsive">
+      <table class="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">File Name</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Download</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of items">
+              <th scope="row">{{item._id}}</th>
+              <th scope="row">
+                {{item.filename}}</th>
+                <td><button mat-raised-button color="accent" routerLink="/upload/{{item.filename}}">Edit</button>              </td>
+              <td><button mat-raised-button color="primary" (click)="downloadFile(item.filename)">Download</button>              </td>
+
+            </tr>
+          
+          </tbody>
+        </table>
+  </div>
+
+</div>
+

@@ -1,0 +1,137 @@
+
+
+
+
+<div *ngIf="submittedFlag" class="print-container">
+  <div class="print-info-container">
+    <p>Photos Generated</p>
+    <p>Country : {{selectedCountry.name}}</p>
+    <p>Type : {{selectedType.name}}</p>
+    <p>Copies : {{selectedCopies}}</p>
+
+    <div class="d-flex">
+        <button mat-raised-button color="primary" (click)="uploadImage()">Upload Image</button>
+      <button  class="margin-left" mat-raised-button color="primary" (click)="goBack()">Go Back</button>
+      <button class="margin-left" mat-raised-button color="primary" (click)="printComponent()">Print</button>
+      <button class="margin-left" mat-raised-button color="primary" (click)="setCanvas()">Set Canvas</button>
+
+    </div>
+
+
+  </div>
+  <div class="text-center" id="print">
+    <img class="object-cover"   [ngClass]="{
+            
+      'filter-contrast': filterVal == 1,
+      'filter-sepia':filterVal == 2,
+      'filter-grey':filterVal == 3,
+      'filter-invert':filterVal == 4
+
+    }" [src]="photo" *ngFor="let item of selectedCopiesArray" [style.width.px]="dimensions.width"
+      [style.height.px]="dimensions.height">
+  </div>
+</div>
+
+<div *ngIf="!submittedFlag" class="main-container text-center"> 
+
+      <mat-horizontal-stepper [linear]="isLinear" #stepper>
+
+        <mat-step [stepControl]="firstFormGroup">
+            <ng-template matStepLabel>Upload the Photo</ng-template>
+          <div class="upload">
+              <div id="tui-image-editor"></div>
+
+              <div *ngIf="orgPhoto" class="crop-box">
+                <!-- You can now use angular-cropper component in app.component.html -->
+                <angular-cropper #angularCropper [imageUrl]="orgPhoto" class="rounded mb-3" width="180"></angular-cropper>
+                <br>
+                <mat-icon (click)="rotateLeft()">rotate_left</mat-icon>
+                <mat-icon (click)="rotateRight()">rotate_right</mat-icon>
+                <!-- <mat-icon (click)="zoomIn()">zoom_in</mat-icon>
+                <mat-icon (click)="zoomOut()">zoom_out</mat-icon> -->
+                <br>
+        
+        
+              </div>
+        
+        
+              <img *ngIf="!orgPhoto" src="https://via.placeholder.com/500x500?text=Upload+Your+Image" class="rounded mb-3"
+                width="180">
+              <input #file class="hide" id="input-file-id" (change)="setPhoto($event)" type="file" />
+              <br>
+              <button *ngIf="!orgPhoto" mat-raised-button color="primary" (click)="file.click()">Upload</button>
+    
+          </div>
+            <br>
+            <button  *ngIf="orgPhoto" mat-raised-button (click)="addFilter();" color="primary" matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Add Filters</ng-template>
+
+          <div class="filter-container">    
+              <img id="image-filter" *ngIf="photo" [src]="photo"
+              [ngClass]="{
+                
+              'filter-contrast': filterVal == 1,
+              'filter-sepia':filterVal == 2,
+              'filter-grey':filterVal == 3,
+              'filter-invert':filterVal == 4
+            }" class="rounded mb-3 " 
+                >
+                <br>
+              <div class="text-center d-flex justify-content-center">
+                  <mat-chip-list>
+                      <mat-chip (click)="changeFilter(0)">No Filter</mat-chip>
+                      <mat-chip (click)="changeFilter(1)">Contrast</mat-chip>
+                      <mat-chip (click)="changeFilter(2)">Sepia</mat-chip>
+                      <mat-chip (click)="changeFilter(3)" >Grey</mat-chip>
+                      <mat-chip (click)="changeFilter(4)" >Invert</mat-chip>
+                      <mat-chip (click)="changeFilter(5)" >Nostalgia</mat-chip>
+                    </mat-chip-list>
+              </div>
+             
+          </div>
+          <br>
+              <button mat-raised-button  color="warn" matStepperPrevious>Back</button>
+               <button  color="primary" class="margin-left" mat-raised-button   matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Enter your Details</ng-template>
+          <br>
+    
+          <mat-form-field>
+            <mat-select placeholder="Select the Country" [(ngModel)]="selectedCountry" [compareWith]="comp">
+              <mat-option *ngFor="let country of countries" [value]="country">
+                {{country.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    
+          <br>
+    
+          <mat-form-field>
+            <mat-select placeholder="Select the Type" [(ngModel)]="selectedType" [compareWith]="comp">
+              <mat-option *ngFor="let type of photoType" [value]="type">
+                {{type.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    
+          <br>
+    
+          <mat-form-field>
+            <mat-select placeholder="Select the Number of Copies" [(ngModel)]="selectedCopies">
+              <mat-option *ngFor="let type of photoCopies" [value]="type.value">
+                {{type.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div>
+              <br>
+              <button  mat-raised-button color="primary" (click)="submit()">Submit</button>
+            </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+</div>
